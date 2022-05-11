@@ -1,10 +1,8 @@
-const {readFile} = require('fs')
-const util = require('util');
-const readFilePromise = util.promisify(readFile);
+const {readFile} = require('fs').promises
 
 const start = async () => {
     try{
-        const file1 = await readFilePromise('./content/first.txt', 'utf8');
+        const file1 = await readFile('./content/first.txt', 'utf8');
         console.log(file1);
     } catch (e){
         throw e;
