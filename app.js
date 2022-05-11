@@ -1,21 +1,10 @@
 const {readFile} = require('fs')
-
-const getText = (path) => {
-    return new Promise((resolve, reject) => {
-        readFile(path, 'utf8', (e, s) => {
-            if (e) {
-                reject(e);
-            } else {
-                resolve(s);
-            }
-        });
-
-    })
-}
+const util = require('util');
+const readFilePromise = util.promisify(readFile);
 
 const start = async () => {
     try{
-        const file1 = await getText('./content/first.txt');
+        const file1 = await readFilePromise('./content/first.txt', 'utf8');
         console.log(file1);
     } catch (e){
         throw e;
@@ -25,4 +14,16 @@ start().then(() => console.log("reading done")).catch((e) => console.log("some e
 console.log("START")
 
 
+// const getText = (path) => {
+//     return new Promise((resolve, reject) => {
+//         readFile(path, 'utf8', (e, s) => {
+//             if (e) {
+//                 reject(e);
+//             } else {
+//                 resolve(s);
+//             }
+//         });
+//
+//     })
+// }
 // getText('./content/first.txt').then(d => console.log(d)).catch(e=>console.log(e));
