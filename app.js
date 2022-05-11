@@ -1,9 +1,12 @@
 const {readFile} = require('fs').promises
+const EventEmitter = require('events');
 
+const customEvent = new EventEmitter();
+customEvent.on('fileDone', (content) => console.log("File is red", content));
 const start = async () => {
     try{
         const file1 = await readFile('./content/first.txt', 'utf8');
-        console.log(file1);
+        customEvent.emit('fileDone', file1);
     } catch (e){
         throw e;
     }
@@ -11,17 +14,3 @@ const start = async () => {
 start().then(() => console.log("reading done")).catch((e) => console.log("some error", e));
 console.log("START")
 
-
-// const getText = (path) => {
-//     return new Promise((resolve, reject) => {
-//         readFile(path, 'utf8', (e, s) => {
-//             if (e) {
-//                 reject(e);
-//             } else {
-//                 resolve(s);
-//             }
-//         });
-//
-//     })
-// }
-// getText('./content/first.txt').then(d => console.log(d)).catch(e=>console.log(e));
