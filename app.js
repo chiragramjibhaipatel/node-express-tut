@@ -1,16 +1,7 @@
-const {readFile} = require('fs').promises
-const EventEmitter = require('events');
+const http = require('http');
+const fs = require('fs');
 
-const customEvent = new EventEmitter();
-customEvent.on('fileDone', (content) => console.log("File is red", content));
-const start = async () => {
-    try{
-        const file1 = await readFile('./content/first.txt', 'utf8');
-        customEvent.emit('fileDone', file1);
-    } catch (e){
-        throw e;
-    }
-}
-start().then(() => console.log("reading done")).catch((e) => console.log("some error", e));
-console.log("START")
-
+http.createServer(function (req, res){
+    const text = fs.readFileSync('./content/big.txt', 'utf-8');
+    res.end(text);
+}).listen(5000)
