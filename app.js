@@ -1,23 +1,22 @@
 const express = require('express');
 const app = express();
-const {products} = require('./data');
 
-app.get("/product", (req, res) => {
-    console.log(req.query);
-    let search = req.query.search;
-    let limit = req.query.limit;
-    let filteredProducts = [...products];
-    if (search) {
-        filteredProducts = filteredProducts.filter(p => p.name.startsWith(search));
-    }
-    if (limit) {
-        filteredProducts = filteredProducts.slice(0, Number(limit));
-    }
-    if (filteredProducts.length === 0) {
-        res.send("no match");
-    } else {
-        res.json(filteredProducts);
-    }
+
+const logger = (req, res, next) =>{
+    const url = req.url;
+    const method = req.method;
+    const time = new Date().toTimeString();
+    console.log(method, url, time);
+    next();
+}
+
+app.get("/", logger, (req, res) => {
+    res.send("Home");
 });
+
+app.get("/about",logger, (req, res) => {
+    res.send("about");
+});
+
 
 app.listen(5000);
