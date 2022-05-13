@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const loggerV1 = require('./logger_v1');
 const loggerV2 = require('./logger_v2');
+const authorize = require('./authorize');
 
-app.use("/api/v1", loggerV1);
+app.use("/api/v1", [loggerV1, authorize]);
 app.use("/api/v2", loggerV2);
 
 app.get("/", (req, res) => {
