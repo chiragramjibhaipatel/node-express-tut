@@ -1,15 +1,12 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
+const path = require("path")
+const app = express();
 
-http.createServer(function (req, res){
+app.get("/", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "./index.html"));
+})
 
-    const fileReadStream = fs.createReadStream('./content/big.txt', { encoding: "utf-8"})
-    fileReadStream.on('open', data=>{
-        console.log("sending");
-        fileReadStream.pipe(res);
-    })
-    fileReadStream.on('error', e => {
-        res.end(e);
-    })
+app.listen(5000, () => {
+    console.log("server is listening on 5000");
 
-}).listen(5000)
+});
